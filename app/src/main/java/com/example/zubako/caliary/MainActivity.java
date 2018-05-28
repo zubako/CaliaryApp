@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle(null);
 
-        findViewById(R.id.SaveButton).setOnClickListener(
+        findViewById(R.id.CreateMemo).setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v)
                     {
@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        TextView memoview = (TextView)findViewById( R.id.MemoView );
 
+        Intent memoview1 = getIntent();
+        memoview.setText( memoview1.getStringExtra( "Memo" ) );
         compactCalendar = (com.example.zubako.caliary.CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
@@ -69,5 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 actionBar.setTitle(dateFormatMonth.format(firstDayOfNewMonth));
             }
         });
+
     }
 }
