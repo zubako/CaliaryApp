@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
+    android:orientation="vertical"
     tools:context="com.example.zubako.caliary.MainActivity">
 
     <com.example.zubako.caliary.CompactCalendarView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
-        android:layout_width="fill_parent"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         app:compactCalendarTextSize="12sp"
         app:compactCalendarBackgroundColor="#ffe95451"
         app:compactCalendarTextColor="#fff"
@@ -25,4 +21,15 @@
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
         app:compactCalendarMultiEventIndicatorColor="#fff"
         />
-</RelativeLayout>
+
+    <com.example.zubako.caliary.CaliaryView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/caliary_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:caliaryColor1="#FF00FF"
+        app:caliaryColor2="#00FF00"
+        app:caliaryColor3="#646464" />
+
+</LinearLayout>

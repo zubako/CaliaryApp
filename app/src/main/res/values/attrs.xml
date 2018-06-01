@@ -30,4 +30,10 @@
         <attr name="compactCalendarShouldSelectFirstDayOfMonthOnScroll" format="boolean"/>
         <attr name="compactCalendarOtherMonthDaysTextColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="CaliaryView">
+        <attr name="caliaryColor1" format="color"/>
+        <attr name="caliaryColor2" format="color"/>
+        <attr name="caliaryColor3" format="color"/>
+    </declare-styleable>
 </resources>
