@@ -48,32 +48,89 @@
     <Button
         android:id="@+id/CancelButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/SaveButton"
-        android:layout_marginEnd="94dp"
+        android:layout_height="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/Angry"
         android:background="#FFFAFA"
         android:text="취소" />
 
     <Button
         android:id="@+id/SaveButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="13dp"
-        android:layout_marginStart="98dp"
+        android:layout_marginStart="85dp"
         android:background="#FFFAFA"
         android:text="저장" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="290dp"
-        android:layout_height="144dp"
+    <ImageView
+        android:id="@+id/Angry"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/Happy"
+        android:src="@drawable/angry"
+        android:layout_alignTop="@+id/Soso" />
+
+    <ImageView
+        android:id="@+id/Sad"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/ImoticonSelect"
+        android:src="@drawable/sad"
+        android:layout_alignTop="@+id/Sleepy" />
+
+    <ImageView
+        android:id="@+id/Hurt"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/ImoticonSelect"
+        android:src="@drawable/hurt"
+        android:layout_alignTop="@+id/Angry" />
+
+    <ImageView
+        android:id="@+id/Happy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/Sad"
+        android:src="@drawable/happy"
+        android:layout_marginEnd="128dp" />
+
+    <ImageView
+        android:id="@+id/Love"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/DiaryWrite"
+        android:src="@drawable/love"
+        android:layout_alignTop="@+id/Sad" />
+
+    <ImageView
+        android:id="@+id/Sleepy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/DiaryWrite"
-        android:layout_marginBottom="82dp"
-        android:text="TextView" />
+        android:src="@drawable/sleepy"
+        android:layout_marginBottom="160dp" />
+
+    <ImageView
+        android:id="@+id/Soso"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="71dp"
+        android:src="@drawable/soso"
+        android:layout_marginEnd="39dp" />
+
+    <ImageView
+        android:id="@+id/Fun"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fun"
+        android:layout_alignStart="@+id/DiaryWrite"
+        android:layout_alignTop="@+id/Angry" />
 
 
 </RelativeLayout>

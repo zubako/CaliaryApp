@@ -3,6 +3,7 @@ package com.example.zubako.caliary;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,14 +11,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zubako.caliary.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import pl.droidsonroids.gif.GifDrawable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,17 +42,16 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.CreateMemo).setOnClickListener(
                 new Button.OnClickListener() {
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         Intent intent_act2 = new Intent(getApplicationContext(), diarycreateactivity.class);
                         startActivity(intent_act2);
                     }
                 }
         );
-        TextView memoview = (TextView)findViewById( R.id.MemoView );
+        TextView memoview = (TextView) findViewById(R.id.MemoView);
 
         Intent memoview1 = getIntent();
-        memoview.setText( memoview1.getStringExtra( "Memo" ) );
+        memoview.setText(memoview1.getStringExtra("Memo"));
         compactCalendar = (com.example.zubako.caliary.CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
@@ -74,4 +79,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 }
