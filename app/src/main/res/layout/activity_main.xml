@@ -8,28 +8,23 @@
     android:orientation="vertical"
     tools:context="com.example.zubako.caliary.MainActivity">
 
-    <com.example.zubako.caliary.CompactCalendarView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/compactcalendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:compactCalendarTextSize="12sp"
-        app:compactCalendarBackgroundColor="#ffe95451"
-        app:compactCalendarTextColor="#fff"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
-        app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
-        app:compactCalendarMultiEventIndicatorColor="#fff"
-        />
-
-    <com.example.zubako.caliary.CaliaryView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.example.zubako.caliary.CaliaryView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/caliary_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="7"
+        app:defaultHeight="1" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:caliaryColor1="#FF00FF"
-        app:caliaryColor2="#00FF00"
-        app:caliaryColor3="#646464" />
+        android:text="@string/string_name" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3" />
 
 </LinearLayout>

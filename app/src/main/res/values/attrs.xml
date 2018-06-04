@@ -32,8 +32,6 @@
     </declare-styleable>
 
     <declare-styleable name="CaliaryView">
-        <attr name="caliaryColor1" format="color"/>
-        <attr name="caliaryColor2" format="color"/>
-        <attr name="caliaryColor3" format="color"/>
+        <attr name="defaultHeight" format="integer"/>
     </declare-styleable>
 </resources>
