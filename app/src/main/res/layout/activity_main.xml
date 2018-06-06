@@ -13,18 +13,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="7"
-        app:defaultHeight="1" />
+        app:viewDefaultHeight="1"
+        app:numberSize="64"
+        app:numberSpaceX="10"
+        app:numberSpaceY="0"
+        app:weekHeight="100"
+        app:tomonthBackgroundColor="#ffffe6"
+        app:weekBackgroundColor="#afffaf" />
 
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/string_name" />
+        android:text=" 년 월 일" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3" />
-
 </LinearLayout>
