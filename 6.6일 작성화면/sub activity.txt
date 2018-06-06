@@ -1,0 +1,42 @@
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+
+public class SubActivity extends AppCompatActivity {
+    @Override
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sub);
+        Intent intent1 = getIntent();
+
+        String edt = intent1.getStringExtra("ed_TITLE");
+        String are = intent1.getStringExtra("ed_AREA");
+        String conte = intent1.getStringExtra("ed_content");
+        String AD = intent1.getStringExtra("DATE");
+        String AT = intent1.getStringExtra("TIME");
+        String BD = intent1.getStringExtra("DATE2");
+        String BT = intent1.getStringExtra(" TIME2");
+
+        TextView textview = (TextView)findViewById(R.id.textView20);
+        textview.setText(edt);
+        textview.setText(are);
+        textview.setText(conte);
+        textview.setText(AD);
+        textview.setText(AT);
+        textview.setText(BD);
+        textview.setText(BT);
+
+
+       // String Name = intent1.getStringExtra("Name");
+       // TextView textview = (TextView)findViewById(R.id.textView20);
+       // textview.setText(Name);
+
+    }
+
+}
