@@ -8,28 +8,35 @@
     android:orientation="vertical"
     tools:context="com.example.zubako.caliary.MainActivity">
 
-    <com.example.zubako.caliary.CaliaryView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/caliary_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="7"
-        app:viewDefaultHeight="1"
-        app:numberSize="64"
-        app:numberSpaceX="10"
-        app:numberSpaceY="0"
-        app:weekHeight="100"
-        app:tomonthBackgroundColor="#ffffe6"
-        app:weekBackgroundColor="#afffaf" />
-
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="5"
+        android:text=" 년 월 일" />
+
+    <com.example.zubako.caliary.CaliaryView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/caliary_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="60"
+        app:viewDefaultHeight="1"
+        app:numberSize="64"
+        app:numberSpaceX="10"
+        app:numberSpaceY="0"
+        app:weekHeight="60"
+        app:tomonthBackgroundColor="#ffffe6"
+        app:weekBackgroundColor="#afffaf" />
+
+    <TextView
+        android:id="@+id/txtDate2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
         android:text=" 년 월 일" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3" />
+        android:layout_weight="30" />
 </LinearLayout>
