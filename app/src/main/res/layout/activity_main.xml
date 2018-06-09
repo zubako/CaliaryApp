@@ -1,42 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.zubako.caliary.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.zubako.caliary.MainActivity" >
 
-    <TextView
-        android:id="@+id/txtDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:text=" 년 월 일" />
+    <LinearLayout
 
-    <com.example.zubako.caliary.CaliaryView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/caliary_calendar"
+        android:id="@+id/activity_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="60"
-        app:viewDefaultHeight="1"
-        app:numberSize="64"
-        app:numberSpaceX="10"
-        app:numberSpaceY="0"
-        app:weekHeight="60"
-        app:tomonthBackgroundColor="#ffffe6"
-        app:weekBackgroundColor="#afffaf" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/txtDate2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:text=" 년 월 일" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="horizontal">
 
-    <ListView
-        android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/imgPreButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:paddingEnd="0dp"
+                android:paddingStart="50dp"
+                android:scaleType="center"
+                app:srcCompat="@drawable/left"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/imgNextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:paddingEnd="50dp"
+                android:paddingStart="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/right"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+
+        <com.example.zubako.caliary.CaliaryView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/caliary_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="64"
+            app:numberSize="64"
+            app:numberSpaceX="10"
+            app:numberSpaceY="0"
+            app:weekHeight="64"
+            app:defaultColor="#c8c8c8"
+            app:tomonthBackgroundColor="#ffffec"
+            app:weekBackgroundColor="#e8ffe8" />
+
+        <TextView
+            android:id="@+id/txtEventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/listEventDate"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30" >
+
+        </ListView>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnAddEventDate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="30" />
-</LinearLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@android:drawable/ic_input_add" />
+
+</FrameLayout>

@@ -10,7 +10,7 @@ public class CaliaryController extends GestureDetector.SimpleOnGestureListener {
     // ---------------
     // Constructor
     // ---------------
-    public CaliaryController( CaliaryView view ) {
+    CaliaryController( CaliaryView view ) {
         this.view = view;
     }
 
@@ -29,7 +29,6 @@ public class CaliaryController extends GestureDetector.SimpleOnGestureListener {
     public boolean onSingleTapUp( MotionEvent e ) {
         if( e.getY() > view.weekHeight() && e.getX() > view.getViewX() && e.getX() < view.getViewX() + view.getViewWidth() ) {
             view.pointToSelectDate( ( int )e.getX(), ( int )e.getY() );
-            view.invalidate();
         }
 
         return true;
@@ -42,7 +41,6 @@ public class CaliaryController extends GestureDetector.SimpleOnGestureListener {
     public boolean onFling( MotionEvent e1, MotionEvent e2, float velocityX, float velocityY ) {
         if( Math.abs( velocityX ) > 1000 ) {
             view.monthChange( ( int )( velocityX / Math.abs( velocityX ) ) * ( -1 ) );
-            view.invalidate();
         }
 
         return true;
@@ -56,6 +54,7 @@ public class CaliaryController extends GestureDetector.SimpleOnGestureListener {
         view.getParent().requestDisallowInterceptTouchEvent( true );
         view.setViewX( ( int )( view.getViewX() - distanceX ) );
         view.invalidate();
+
         return true;
     }
 

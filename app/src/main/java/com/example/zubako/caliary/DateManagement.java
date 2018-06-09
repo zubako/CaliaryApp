@@ -34,4 +34,30 @@ public class DateManagement extends GregorianCalendar {
         return count;
     }
 
+    // ---------------
+    // get : 해당 달의 일을 적용한 날짜
+    // ---------------
+    public int getDay( GregorianCalendar calendar, int day, int field ) {
+        int year = calendar.get( Calendar.YEAR );
+        int month = calendar.get( Calendar.MONTH );
+
+        GregorianCalendar cloneCalendar = new GregorianCalendar( year, month, day );
+
+        return cloneCalendar.get( field );
+    }
+
+    // ---------------
+    // get : 해당 달의 일을 더하여 적용한 날짜
+    // ---------------
+    public int getDayAmount( GregorianCalendar calendar, int amount, int field ) {
+        int year = calendar.get( Calendar.YEAR );
+        int month = calendar.get( Calendar.MONTH );
+        int day = calendar.get( Calendar.DATE );
+
+        GregorianCalendar cloneCalendar = new GregorianCalendar( year, month, day );
+        cloneCalendar.add( Calendar.DATE, amount );
+
+        return cloneCalendar.get( field );
+    }
+
 }
