@@ -32,6 +32,7 @@
     </declare-styleable>
 
     <declare-styleable name="CaliaryView">
+        <attr name="viewIsCalendar" format="boolean"/>
         <attr name="viewDefaultHeight" format="integer"/>
         <attr name="numberSize" format="integer"/>
         <attr name="numberSpaceX" format="integer"/>

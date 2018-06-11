@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.zubako.caliary.MainActivity" >
+    tools:context="com.example.zubako.caliary.DiaryActivity">
 
     <LinearLayout
         android:id="@+id/activity_main"
@@ -20,7 +20,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imgPreButton"
+                android:id="@+id/Left"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -32,7 +32,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/txtDate"
+                android:id="@+id/Date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -41,7 +41,7 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imgNextButton"
+                android:id="@+id/Right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -54,10 +54,11 @@
         </LinearLayout>
 
         <com.example.zubako.caliary.CaliaryView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/caliary_calendar"
+            android:id="@+id/Calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="64"
+            app:viewIsCalendar="false"
             app:numberSize="64"
             app:numberSpaceX="10"
             app:numberSpaceY="0"
@@ -67,28 +68,20 @@
             app:weekBackgroundColor="#e8ffe8" />
 
         <TextView
-            android:id="@+id/txtEventDate"
+            android:id="@+id/MemoView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
+            android:layout_weight="31"
             android:gravity="center_vertical"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ListView
-            android:id="@+id/listEventDate"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30" >
-
-        </ListView>
-
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAddEventDate"
+        android:id="@+id/AddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

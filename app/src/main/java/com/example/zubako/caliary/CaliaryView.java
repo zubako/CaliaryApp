@@ -2,10 +2,12 @@ package com.example.zubako.caliary;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.Image;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.Html;
@@ -14,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +36,7 @@ public class CaliaryView extends View {
     private int selectDateY;
     private int selectDateOriginX;
     private int selectDateOriginY;
+    private boolean attrViewIsCalendar;
     private int attrViewDefaultHeight;
     private int attrNumberSize;
     private int attrNumberSpaceX;
@@ -57,6 +61,11 @@ public class CaliaryView extends View {
     public ListView listEventDate;
     public EventDateAdapter listEventDateAdapter;
     public FloatingActionButton btnAddEventDate;
+    // -----
+    private TextView Date;
+    public ImageView Left;
+    public ImageView Right;
+    public FloatingActionButton AddButton;
 
     // ---------------
     // Constructor( Overroads )
@@ -91,6 +100,7 @@ public class CaliaryView extends View {
 
             TypedArray typedArray = getContext().getTheme().obtainStyledAttributes( attr, R.styleable.CaliaryView, 0, 0);
             try {
+                attrViewIsCalendar = typedArray.getBoolean( R.styleable.CaliaryView_viewIsCalendar, true );
                 attrViewDefaultHeight = typedArray.getInteger( R.styleable.CaliaryView_viewDefaultHeight, viewWidth );
                 attrNumberSize = typedArray.getInteger( R.styleable.CaliaryView_numberSize, 1 );
                 attrNumberSpaceX = typedArray.getInteger( R.styleable.CaliaryView_numberSpaceX, 0 );
@@ -110,9 +120,9 @@ public class CaliaryView extends View {
     }
 
     // ---------------
-    // 뷰 초기화
+    // 캘린더 초기화
     // ---------------
-    public void initData() {
+    public void initCalendar() {
         txtDate = ( ( Activity )cont ).findViewById( R.id.txtDate );
         txtEventDate = ( ( Activity )cont ).findViewById( R.id.txtEventDate );
         imgPreButton = ( ( Activity )cont ).findViewById( R.id.imgPreButton );
@@ -147,6 +157,41 @@ public class CaliaryView extends View {
             item.setEventDateName( "오픈소스 팀 프로젝트 미팅" + i + "번쨹" );
             listEventDateAdapter.items.add( item );
         }
+
+        selectDateOriginX = ( int )viewX + ( viewWidth / 2 );
+        selectDateOriginY = ( int )viewY + ( viewHeight / 2 );
+        dateToSelectDate( dateManager );
+    }
+
+    // ---------------
+    // 다이어리 초기화
+    // ---------------
+    public void initDiary() {
+        Date = ( ( Activity )cont ).findViewById( R.id.Date );
+        Left = ( ( Activity )cont ).findViewById( R.id.Left );
+        Right = ( ( Activity )cont ).findViewById( R.id.Right );
+        AddButton = ( ( Activity )cont ).findViewById( R.id.AddButton );
+
+        Left.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                monthChange( -1 );
+            }
+        } );
+        Right.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                monthChange( 1 );
+            }
+        } );
+        AddButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Toast.makeText( cont.getApplicationContext(), "추가 화면으로 이동합니다.", Toast.LENGTH_SHORT ).show();
+                Intent createIntent = new Intent( cont.getApplicationContext(), diarycreateactivity.class );
+                cont.startActivity( createIntent );
+            }
+        } );
 
         selectDateOriginX = ( int )viewX + ( viewWidth / 2 );
         selectDateOriginY = ( int )viewY + ( viewHeight / 2 );
@@ -260,8 +305,7 @@ public class CaliaryView extends View {
         month = date.get( Calendar.MONTH ) + 1;
         day = date.get( Calendar.DATE );
         dayStr = year + "년 " + month + "월 " + day + "일";
-        txtDate.setText( dayStr );
-        txtEventDate.setText( Html.fromHtml( "<u>" + dayStr + "</u>" ) );
+        textToDate( dayStr );
     }
 
     // ---------------
@@ -293,8 +337,17 @@ public class CaliaryView extends View {
         month = date.get( Calendar.MONTH ) + 1;
         day = date.get( Calendar.DATE );
         dayStr = year + "년 " + month + "월 " + day + "일";
-        txtDate.setText( dayStr );
-        txtEventDate.setText( Html.fromHtml( "<u>" + dayStr + "</u>" ) );
+        textToDate( dayStr );
+    }
+
+    public void textToDate( String text ) {
+        if( attrViewIsCalendar ) {
+            txtDate.setText( text );
+            txtEventDate.setText( Html.fromHtml( "<u>" + text + "</u>" ) );
+        }
+        else {
+            Date.setText( text );
+        }
     }
 
     // ---------------
@@ -479,9 +532,17 @@ public class CaliaryView extends View {
         drawSelect( canvas );
 
         anim();
-        if( txtDate == null ) {
-            initData();
+        if( attrViewIsCalendar ) {
+            if( txtDate == null ) {
+                initCalendar();
+            }
         }
+        else {
+            if( Date == null ) {
+                initDiary();
+            }
+        }
+
     }
 
 }
