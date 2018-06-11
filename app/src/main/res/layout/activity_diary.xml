@@ -68,15 +68,24 @@
             app:weekBackgroundColor="#e8ffe8" />
 
         <TextView
-            android:id="@+id/MemoView"
+            android:id="@+id/DiaryView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_weight="31"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/MemoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="30"
+            android:gravity="top|start"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

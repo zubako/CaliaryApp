@@ -63,6 +63,7 @@ public class CaliaryView extends View {
     public FloatingActionButton btnAddEventDate;
     // -----
     private TextView Date;
+    private TextView DiaryView;
     public ImageView Left;
     public ImageView Right;
     public FloatingActionButton AddButton;
@@ -168,6 +169,7 @@ public class CaliaryView extends View {
     // ---------------
     public void initDiary() {
         Date = ( ( Activity )cont ).findViewById( R.id.Date );
+        DiaryView = ( ( Activity )cont ).findViewById( R.id.DiaryView );
         Left = ( ( Activity )cont ).findViewById( R.id.Left );
         Right = ( ( Activity )cont ).findViewById( R.id.Right );
         AddButton = ( ( Activity )cont ).findViewById( R.id.AddButton );
@@ -347,6 +349,7 @@ public class CaliaryView extends View {
         }
         else {
             Date.setText( text );
+            DiaryView.setText( Html.fromHtml( "<u>" + text + "</u>" ) );
         }
     }
 
