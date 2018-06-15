@@ -42,7 +42,6 @@ public class DiaryActivity extends AppCompatActivity {
         final TextView memoview = (TextView)findViewById( R.id.MemoView );
         final FloatingActionButton AddButton = (FloatingActionButton)findViewById(R.id.AddButton);
 
-
         AddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +118,10 @@ public class DiaryActivity extends AppCompatActivity {
                 finish();
 
                 return true;
+            }
+            case R.id.statistic: {
+                Intent Intent = new Intent( getApplicationContext(), Statistic.class );
+                startActivity( Intent );
             }
             default: {
                 return false;

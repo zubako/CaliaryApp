@@ -11,7 +11,7 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,14 +58,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="64"
-            app:viewIsCalendar="false"
+            app:defaultColor="#c8c8c8"
             app:numberSize="64"
             app:numberSpaceX="10"
             app:numberSpaceY="0"
-            app:weekHeight="64"
-            app:defaultColor="#c8c8c8"
             app:tomonthBackgroundColor="#ffffec"
-            app:weekBackgroundColor="#e8ffe8" />
+            app:viewIsCalendar="false"
+            app:weekBackgroundColor="#e8ffe8"
+            app:weekHeight="64" />
 
         <TextView
             android:id="@+id/MemoView"
@@ -87,6 +87,6 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@android:drawable/ic_input_add"/>
 
 </FrameLayout>
