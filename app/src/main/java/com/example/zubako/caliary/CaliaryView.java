@@ -8,11 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.Html;
@@ -63,6 +61,8 @@ public class CaliaryView extends View {
     private boolean isTouch;
 
     private Paint paint;
+    private Bitmap bitmap;
+    private Canvas subCanvas;
     private GestureDetectorCompat detector;
     private DateManagement dateManager;
     private DateManagement currDateManager;
@@ -172,18 +172,14 @@ public class CaliaryView extends View {
             }
         } );
 
-        // test
-        for( int i = 0; i < 16; i++ )
-        {
-            EventDateBase item = new EventDateBase();
-            item.setEventDateName( "오픈소스 팀 프로젝트 미팅" + i + "번쨹" );
-            listEventDateAdapter.items.add( item );
-        }
-        // to
-
         selectDateOriginX = ( int )viewX + ( viewWidth / 2 );
         selectDateOriginY = ( int )viewY + ( viewHeight / 2 );
         dateToSelectDate( dateManager );
+
+        bitmap = Bitmap.createBitmap( viewWidth * 3, viewHeight * 3, Bitmap.Config.ARGB_8888 );
+        subCanvas = new Canvas( bitmap );
+        subCanvas.translate( viewWidth - viewX, viewY );
+        drawBitmap( subCanvas );
     }
 
     // ---------------
@@ -220,6 +216,11 @@ public class CaliaryView extends View {
         selectDateOriginX = ( int )viewX + ( viewWidth / 2 );
         selectDateOriginY = ( int )viewY + ( viewHeight / 2 );
         dateToSelectDate( dateManager );
+
+        bitmap = Bitmap.createBitmap( viewWidth * 3, viewHeight, Bitmap.Config.ARGB_8888 );
+        subCanvas = new Canvas( bitmap );
+        subCanvas.translate( viewWidth - viewX, viewY );
+        drawBitmap( subCanvas );
     }
 
     // ---------------
@@ -258,6 +259,11 @@ public class CaliaryView extends View {
     }
 
     // ---------------
+    // get : 현재 날짜
+    // ---------------
+    public DateManagement getDate() { return currDateManager; }
+
+    // ---------------
     // getAttrs : 요일칸 높이
     // ---------------
     public int weekHeight() {
@@ -278,9 +284,17 @@ public class CaliaryView extends View {
         selectDateOriginX -= viewWidth * amount;
 
         dateToSelectDate( currDateManager );
+        bitmap.recycle();
+        bitmap = Bitmap.createBitmap( viewWidth * 3, viewHeight, Bitmap.Config.ARGB_8888 );
+        subCanvas = new Canvas( bitmap );
+        subCanvas.translate( viewWidth - viewX, viewY );
+        drawBitmap( subCanvas );
         invalidate();
     }
 
+    // ---------------
+    // 외부 달력 검토
+    // ---------------
     public void OutsideDateManagerUpdate() {
         preDateManager.set( Calendar.DATE, 1 );
         nextDateManager.set( Calendar.DATE, 1 );
@@ -296,12 +310,12 @@ public class CaliaryView extends View {
     public void pointToSelectDate( float x, float y ) {
         int count;
 
-        for( count = 0; viewX + ( count * viewCellWidth ) < x;  ) {
+        for( count = 1; viewX + ( count * viewCellWidth ) < x;  ) {
             count++;
         }
         selectDateX = count - 1;
 
-        for( count = 0; viewY + ( ( count * viewCellHeight ) + attrWeekHeight ) < y;  ) {
+        for( count = 1; viewY + ( ( count * viewCellHeight ) + attrWeekHeight + attrNumberSize ) < y;  ) {
             count++;
         }
         selectDateY = count - 1;
@@ -362,12 +376,18 @@ public class CaliaryView extends View {
         textToDate( dayStr );
     }
 
+    // ---------------
+    // 날짜에 대한 X 위치
+    // ---------------
     public long getViewXforDate( DateManagement date, int day ) {
         int pos = date.getFirstWeekDayOfMonth( date ) - 2 + day;
 
         return ( pos % 7 ) * viewCellWidth;
     }
 
+    // ---------------
+    // 날짜에 대한 Y 위치
+    // ---------------
     public long getViewYforDate( DateManagement date, int day ) {
         int pos = date.getFirstWeekDayOfMonth( date ) - 2 + day;
 
@@ -426,6 +446,26 @@ public class CaliaryView extends View {
         if ( flag ) {
             invalidate();
         }
+    }
+
+    // ---------------
+    // 기본 배경 객체 그리기
+    // ---------------
+    public void drawBitmap( Canvas canvas ) {
+        paint.setTextSize( attrNumberSize + attrNumberSpaceY );
+        paint.setStyle( Paint.Style.FILL );
+        paint.setStrokeWidth( 4 );
+
+        paint.setColor( attrWeekBackgroundColor );
+        canvas.drawRect( viewX, viewY, viewX + viewWidth, viewY + viewWeekHeight, paint );
+        paint.setColor( attrTomonthBackgroundColor );
+        canvas.drawRect( viewX, viewY + viewWeekHeight, viewX + viewWidth, viewY + viewHeight, paint );
+
+        drawCalendar( canvas, currDateManager, 0 );
+        drawCalendar( canvas, preDateManager, -1 );
+        drawCalendar( canvas, nextDateManager, 1 );
+
+        drawDateData( canvas, currDateManager );
     }
 
     // ---------------
@@ -506,23 +546,25 @@ public class CaliaryView extends View {
         int day;
 
         float drawSpaceHeight = attrNumberSize + attrNumberSpaceY;
-
         float eventX;
         float eventY;
         float eventWidth;
         float eventHeight;
 
         for( day = 1; day <= date.getLastDayOfMonth( date ); day++ ) {
-            eventX = getViewXforDate(date, day) + drawSpaceHeight;
-            eventY = getViewYforDate(date, day) + drawSpaceHeight;
-            eventWidth = getViewXforDate(date, day) + viewCellWidth - 6;
-            eventHeight = getViewYforDate(date, day) + viewCellHeight - 6;
+            eventX = viewX + getViewXforDate(date, day) + drawSpaceHeight;
+            eventY = viewY + getViewYforDate(date, day) + drawSpaceHeight;
+            eventWidth = viewX + getViewXforDate(date, day) + viewCellWidth - 6;
+            eventHeight = viewY + getViewYforDate(date, day) + viewCellHeight - 6;
 
             Bitmap image = BitmapFactory.decodeResource( cont.getResources(), R.drawable.angry );
-            canvas.drawBitmap( image, null, new Rect( ( int )( viewX + eventX ), ( int )( viewY + eventY ), ( int )( viewX + eventWidth ), ( int )( viewY + eventHeight ) ), paint );
+            canvas.drawBitmap( image, null, new Rect( ( int )eventX, ( int )eventY, ( int )eventWidth, ( int )eventHeight ), paint );
         }
     }
 
+    // ---------------
+    // 이벤트에 설정된 정보 표시
+    // ---------------
     public void drawEvent( Canvas canvas, DateManagement date, int day, int eventKind, int maxPos, int pos ) {
         float drawSpaceHeight = attrNumberSize + attrNumberSpaceY;
         float drawHeight = ( viewCellHeight - drawSpaceHeight - 6 ) / maxPos;
@@ -533,9 +575,9 @@ public class CaliaryView extends View {
         float eventHeight = viewY + getViewYforDate(date, day) + viewCellHeight - ( drawHeight * pos ) - 6;
 
         String eventName = "";
-        Drawable res = getResources().getDrawable( R.drawable.gradient );
+        Drawable res = getResources().getDrawable( R.drawable.gradient_holiday);
         Bitmap image;
-        Canvas subCanvas;
+        Canvas c;
 
         if ( pos < maxPos ) {
             paint.setTextSize( eventHeight - eventY - 2 );
@@ -551,13 +593,14 @@ public class CaliaryView extends View {
                     break;
                 }
                 case HOLIDAY: {
-                    res = getResources().getDrawable( R.drawable.gradient );
+                    res = getResources().getDrawable( R.drawable.gradient_holiday );
                     eventName = EventDateBase.HOLIDAY.get( ( 100 * ( date.get( Calendar.MONTH ) + 1 ) ) + day );
 
                     break;
                 }
                 case EVENT: {
-                    res = getResources().getDrawable( R.drawable.gradient );
+                    res = getResources().getDrawable( R.drawable.gradient_event );
+
 
                     break;
                 }
@@ -565,9 +608,9 @@ public class CaliaryView extends View {
             }
 
             image = Bitmap.createBitmap( res.getIntrinsicWidth(), res.getIntrinsicHeight(), Bitmap.Config.ARGB_8888 );
-            subCanvas = new Canvas( image );
+            c = new Canvas( image );
             res.setBounds( 0, 0, res.getIntrinsicWidth(), res.getIntrinsicHeight() );
-            res.draw( subCanvas );
+            res.draw( c );
             canvas.drawBitmap( image, null, new Rect( ( int )eventX + 1, ( int )eventY + 1, ( int )eventWidth - 1, ( int )eventHeight - 1 ), paint );
 
             while( paint.measureText( eventName ) > eventWidth - eventX ) {
@@ -663,24 +706,6 @@ public class CaliaryView extends View {
     // ---------------
     @Override
     protected void onDraw( Canvas canvas ) {
-        paint.setTextSize( attrNumberSize + attrNumberSpaceY );
-        paint.setStyle( Paint.Style.FILL );
-        paint.setStrokeWidth( 4 );
-
-        paint.setColor( attrWeekBackgroundColor );
-        canvas.drawRect( viewX, viewY, viewX + viewWidth, viewY + viewWeekHeight, paint );
-        paint.setColor( attrTomonthBackgroundColor );
-        canvas.drawRect( viewX, viewY + viewWeekHeight, viewX + viewWidth, viewY + viewHeight, paint );
-
-        drawCalendar( canvas, currDateManager, 0 );
-        drawCalendar( canvas, preDateManager, -1 );
-        drawCalendar( canvas, nextDateManager, 1 );
-
-        drawDateData( canvas, currDateManager );
-
-        drawSelect( canvas );
-
-        anim();
         if( attrViewIsCalendar ) {
             if( txtDate == null ) {
                 initCalendar();
@@ -691,7 +716,9 @@ public class CaliaryView extends View {
                 initDiary();
             }
         }
-
+        canvas.drawBitmap( bitmap, viewX - viewWidth, viewY, paint );
+        drawSelect( canvas );
+        anim();
     }
 
 }

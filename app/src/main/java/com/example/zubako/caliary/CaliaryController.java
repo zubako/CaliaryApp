@@ -28,7 +28,7 @@ public class CaliaryController extends GestureDetector.SimpleOnGestureListener {
     @Override
     public boolean onSingleTapUp( MotionEvent e ) {
         if( e.getY() > view.weekHeight() && e.getX() > view.getViewX() && e.getX() < view.getViewX() + view.getViewWidth() ) {
-            view.pointToSelectDate( ( int )e.getX(), ( int )e.getY() );
+            view.pointToSelectDate( e.getX(), e.getY() );
         }
 
         return true;

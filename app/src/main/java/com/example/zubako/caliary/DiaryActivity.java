@@ -22,6 +22,7 @@ import com.example.zubako.caliary.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class DiaryActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class DiaryActivity extends AppCompatActivity {
     final String LOG_TAG = "myLogs";
     com.example.zubako.caliary.CompactCalendarView compactCalendar;
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.ENGLISH);
+    CaliaryView diary;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class DiaryActivity extends AppCompatActivity {
 
         final TextView memoview = (TextView)findViewById( R.id.MemoView );
         final FloatingActionButton AddButton = (FloatingActionButton)findViewById(R.id.AddButton);
+        diary = (CaliaryView)findViewById( R.id.Calendar );
 
         AddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +59,6 @@ public class DiaryActivity extends AppCompatActivity {
         memoview.setText( memoview1.getStringExtra( "Memo" ) );
 
         String game_time_sc = memoview1.getStringExtra("TIME"); // MainActivity에서 "TIME"이란 키로 넘낀 인탠트값 가져오기
-
 //        ImageView emoticon = (ImageView)findViewById(R.id.Emoticon);
 //        switch (game_time_sc+""){
 //            case"soso":

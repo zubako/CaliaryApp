@@ -6,6 +6,16 @@ import java.util.GregorianCalendar;
 public class DateManagement extends GregorianCalendar {
 
     // ---------------
+    // Constructs
+    // ---------------
+    public DateManagement() {}
+    public DateManagement( int year, int month, int date ) {
+        this.set( Calendar.YEAR, year );
+        this.set( Calendar.MONTH, year );
+        this.set( Calendar.DATE, year );
+    }
+
+    // ---------------
     // get : 해당 달 1일의 요일
     // ---------------
     public int getFirstWeekDayOfMonth( GregorianCalendar calendar )

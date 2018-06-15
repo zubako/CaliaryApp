@@ -11,7 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
+
+    CaliaryView calendar;
 
     // ---------------
     // Main 액티비티의 화끈한 시작!
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+
+        CaliaryView calendar = findViewById( R.id.caliary_calendar );
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -37,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         switch( item.getItemId() ) {
             case R.id.diary: {
                 Intent intent = new Intent( getApplicationContext(), DiaryActivity.class );
+                intent.putExtra( "year", calendar.getDate().get( Calendar.YEAR ) );
+                intent.putExtra( "month", calendar.getDate().get( Calendar.MONTH ) );
+                intent.putExtra( "date", calendar.getDate().get( Calendar.DATE ) );
                 startActivity( intent );
                 finish();
 
