@@ -87,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:checked="true"
-                android:drawableStart="@drawable/soso"
+                android:drawableStart="@drawable/soso1"
                 android:text="soso"
                 android:textColor="#00FF0000" />
 
