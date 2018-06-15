@@ -41,5 +41,11 @@
         <attr name="defaultColor" format="color"/>
         <attr name="tomonthBackgroundColor" format="color"/>
         <attr name="weekBackgroundColor" format="color"/>
+        <attr name="numberColor" format="color"/>
+        <attr name="reddayColor" format="color"/>
+        <attr name="bluedayColor" format="color"/>
+        <attr name="eventdayColor" format="color"/>
+        <attr name="outsidedayColor" format="color"/>
+        <attr name="selectorColor" format="color"/>
     </declare-styleable>
 </resources>

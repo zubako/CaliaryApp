@@ -48,17 +48,3 @@ public class EventDateAdapter extends BaseAdapter {
     }
 
 }
-
-class EventDateBase {
-
-    private String eventDateName;
-
-    public void setEventDateName( String eventDateName ) {
-        this.eventDateName = eventDateName;
-    }
-
-    public String getEventDateName() {
-        return eventDateName;
-    }
-
-}
