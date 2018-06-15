@@ -5,44 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    android:paddingBottom="0dp"
-    tools:context="com.example.zubako.caliary.MainActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.example.zubako.caliary.CompactCalendarView
-            android:id="@+id/compactcalendar_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_weight="1"
-            app:compactCalendarBackgroundColor="#ffe95451"
-            app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
-            app:compactCalendarMultiEventIndicatorColor="#fff"
-            app:compactCalendarTextColor="#fff"
-            app:compactCalendarTextSize="12sp" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/sch_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
-    </LinearLayout>
-
-</RelativeLayout>
-// 주석 테스트얌~
-=======
-    tools:context="com.example.zubako.caliary.MainActivity" >
+    tools:context="com.example.zubako.caliary.DiaryActivity">
 
     <LinearLayout
         android:id="@+id/activity_main"
@@ -57,7 +20,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imgPreButton"
+                android:id="@+id/Left"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -69,7 +32,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/txtDate"
+                android:id="@+id/Date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -78,7 +41,7 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imgNextButton"
+                android:id="@+id/Right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -91,10 +54,11 @@
         </LinearLayout>
 
         <com.example.zubako.caliary.CaliaryView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/caliary_calendar"
+            android:id="@+id/Calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="64"
+            app:viewIsCalendar="false"
             app:numberSize="64"
             app:numberSpaceX="10"
             app:numberSpaceY="0"
@@ -104,7 +68,7 @@
             app:weekBackgroundColor="#e8ffe8" />
 
         <TextView
-            android:id="@+id/txtEventDate"
+            android:id="@+id/DiaryView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -114,18 +78,19 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ListView
-            android:id="@+id/listEventDate"
+        <TextView
+            android:id="@+id/MemoView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30" >
-
-        </ListView>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="30"
+            android:gravity="top|start"
+            android:textSize="10sp" />
 
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAddEventDate"
+        android:id="@+id/AddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -134,4 +99,3 @@
         android:src="@android:drawable/ic_input_add" />
 
 </FrameLayout>
->>>>>>> dc2e0bd2bb802205c865386dd7673b29bae487ca

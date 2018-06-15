@@ -30,4 +30,16 @@
         <attr name="compactCalendarShouldSelectFirstDayOfMonthOnScroll" format="boolean"/>
         <attr name="compactCalendarOtherMonthDaysTextColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="CaliaryView">
+        <attr name="viewIsCalendar" format="boolean"/>
+        <attr name="viewDefaultHeight" format="integer"/>
+        <attr name="numberSize" format="integer"/>
+        <attr name="numberSpaceX" format="integer"/>
+        <attr name="numberSpaceY" format="integer"/>
+        <attr name="weekHeight" format="integer"/>
+        <attr name="defaultColor" format="color"/>
+        <attr name="tomonthBackgroundColor" format="color"/>
+        <attr name="weekBackgroundColor" format="color"/>
+    </declare-styleable>
 </resources>

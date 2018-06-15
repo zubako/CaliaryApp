@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="   #FFE4B5"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/DiaryWrite"
+        android:layout_width="290dp"
+        android:layout_height="172dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:gravity="center"
+        android:background="@drawable/layerlist"
+        android:hint="다이어리를 작성하세요." />
+
+    <TextView
+        android:id="@+id/ImoticonSelect"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/layerlist"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="이모티콘 선택"
+        android:textColor="#000000"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/DiaryWriteExplain"
+        android:layout_width="146dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/layerlist"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="다이어리 작성"
+        android:textColor="#000000"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
+
+    <Button
+        android:id="@+id/CancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/SaveButton"
+        android:layout_marginEnd="94dp"
+        android:background="#FFFAFA"
+        android:text="취소" />
+
+    <Button
+        android:id="@+id/SaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="13dp"
+        android:layout_marginStart="98dp"
+        android:background="#FFFAFA"
+        android:text="저장" />
+
+    <RelativeLayout
+        android:layout_width="372dp"
+        android:layout_height="172dp"
+        android:layout_above="@+id/CancelButton"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/first_group"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/soso"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:checked="true"
+                android:drawableStart="@drawable/soso"
+                android:text="soso"
+                android:textColor="#00FF0000" />
+
+            <RadioButton
+                android:id="@+id/happy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/happy"
+                android:text="happy"
+                android:textColor="#00FF0000" />
+
+            <RadioButton
+                android:id="@+id/fun"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/fun"
+                android:text="fun"
+                android:textColor="#00FF0000" />
+
+            <RadioButton
+                android:id="@+id/sad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/sad"
+                android:text="sad"
+                android:textColor="#00FF0000" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/second_group"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/love"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/love"
+                android:text="love"
+                android:textColor="#00FF0000" />
+
+            <RadioButton
+                android:id="@+id/hurt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/hurt"
+                android:text="hurt"
+                android:textColor="#00FF0000" />
+
+            <RadioButton
+                android:id="@+id/angry"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/angry"
+                android:text="angry"
+                android:textColor="#00FF0000" />
+
+            <RadioButton
+                android:id="@+id/sleepy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/sleepy"
+                android:text="sleepy"
+                android:textColor="#00FF0000" />
+        </RadioGroup>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

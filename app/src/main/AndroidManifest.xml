@@ -16,8 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".MainActivity2" />
         <activity android:name=".Main3Activity"></activity>
+=======
+        <activity android:name=".MainActivity2"/>
+        <activity android:name=".DiaryActivity"/>
+        <activity android:name=".diarycreateactivity"/>
+>>>>>>> dc2e0bd2bb802205c865386dd7673b29bae487ca
     </application>
 
 </manifest>

@@ -136,7 +136,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     + cursor.getString(7)
                     + "\n";
         }
-
         return result;
     }
 }
