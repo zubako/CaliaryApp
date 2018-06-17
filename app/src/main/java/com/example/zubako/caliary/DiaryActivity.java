@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,29 +22,33 @@ import android.widget.Toast;
 import com.example.zubako.caliary.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import static android.media.CamcorderProfile.get;
+
 public class DiaryActivity extends AppCompatActivity {
 
     final String LOG_TAG = "myLogs";
-    com.example.zubako.caliary.CompactCalendarView compactCalendar;
+    CaliaryView ccc;
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.ENGLISH);
-    CaliaryView diary;
+    TextView memoview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
 
+        ccc = findViewById( R.id.Calendar );
+
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle(null);
 
-        final TextView memoview = (TextView)findViewById( R.id.MemoView );
+        memoview = (TextView)findViewById( R.id.MemoView );
         final FloatingActionButton AddButton = (FloatingActionButton)findViewById(R.id.AddButton);
-        diary = (CaliaryView)findViewById( R.id.Calendar );
 
         AddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,11 +59,27 @@ public class DiaryActivity extends AppCompatActivity {
             }
         });
 
-
         Intent memoview1 = getIntent();
-        memoview.setText( memoview1.getStringExtra( "Memo" ) );
-
+        String date_memo = Selected_date.getInstance().getSel_date();
+        String memo_content = memoview1.getStringExtra("Memo");
+        String emoticon = memoview1.getStringExtra("TIME");
+        if(memo_content!=null){
+            Selected_date.getInstance().getDbHelper().insert(date_memo,memo_content,emoticon);
+        }
+        memoview.setText("내용이 없습니다.");
         String game_time_sc = memoview1.getStringExtra("TIME"); // MainActivity에서 "TIME"이란 키로 넘낀 인탠트값 가져오기
+
+        ccc.setSampleEventListener(new CaliaryView.SampleEventListener() {
+            @Override
+            public void onReceivedEvent() {
+                Log.d("listener ccc",":");
+                try{
+                memoview.setText(Selected_date.getInstance().getMemoView() );
+                } catch (Exception e){
+                    Log.d("listener error",":"+e.toString());
+                }
+            }
+        });
 //        ImageView emoticon = (ImageView)findViewById(R.id.Emoticon);
 //        switch (game_time_sc+""){
 //            case"soso":
@@ -104,6 +125,8 @@ public class DiaryActivity extends AppCompatActivity {
 //        }
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
         getMenuInflater().inflate( R.menu.diary_menu, menu );
@@ -116,7 +139,9 @@ public class DiaryActivity extends AppCompatActivity {
         switch( item.getItemId() ) {
             case R.id.calendar: {
                 Intent intent = new Intent( getApplicationContext(), MainActivity.class );
+                Selected_date.getInstance().setItem(0);
                 startActivity( intent );
+
                 finish();
 
                 return true;
@@ -131,4 +156,14 @@ public class DiaryActivity extends AppCompatActivity {
         }
     }
 
+//
+//    @Override
+//    public void onClick(View v) {
+//        Intent intent_act2 = new Intent(getApplicationContext(), diarycreateactivity.class);
+//        intent_act2.putExtra("year",ccc.getCurrDateManager().get(Calendar.YEAR));
+//        intent_act2.putExtra("month",ccc.getCurrDateManager().get(Calendar.MONTH));
+//        intent_act2.putExtra("date",ccc.getCurrDateManager().get(Calendar.DATE));
+//        intent_act2.putExtra("Memo", memoview.getText().toString());
+//        startActivity(intent_act2);
+//    }
 }

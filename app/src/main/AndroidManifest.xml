@@ -20,6 +20,8 @@
         <activity android:name=".DiaryActivity"/>
         <activity android:name=".diarycreateactivity"/>
         <activity android:name=".Statistic"/>
+        <activity android:name=".CreateSchedule"/>
+        <activity android:name=".EditSchedule"/>
     </application>
 
 </manifest>

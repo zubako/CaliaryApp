@@ -16,7 +16,8 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     CaliaryView calendar;
-
+    CaliaryView caliaryView;
+//    final DBHelper dbHelper = new DBHelper(this, "Caliary.db", null, 1);//DB 실행
     // ---------------
     // Main 액티비티의 화끈한 시작!
     // ---------------
@@ -24,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+//        Selected_date.getInstance().setDbHelper(dbHelper);
+        caliaryView = new CaliaryView(this);
+        caliaryView = findViewById(R.id.caliary_calendar);
+        Selected_date.getInstance().setCaliaryView(caliaryView);
 
         CaliaryView calendar = findViewById( R.id.caliary_calendar );
 
@@ -35,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.diary: {
                 Intent intent = new Intent( getApplicationContext(), DiaryActivity.class );
-//                intent.putExtra( "year", calendar.getDate().get( Calendar.YEAR ) );
-//                intent.putExtra( "month", calendar.getDate().get( Calendar.MONTH ) );
-//                intent.putExtra( "date", calendar.getDate().get( Calendar.DATE ) );
+
+                Selected_date.getInstance().setItem(1);
+
                 startActivity( intent );
 
                 finish();

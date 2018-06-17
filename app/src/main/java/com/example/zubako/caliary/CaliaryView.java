@@ -15,15 +15,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class CaliaryView extends View {
@@ -59,6 +64,7 @@ public class CaliaryView extends View {
     private int attrOutsidedayColor;
     private int attrSelectorColor;
     private boolean isTouch;
+    public String sel_date;
 
     private Paint paint;
     private Bitmap bitmap;
@@ -83,6 +89,7 @@ public class CaliaryView extends View {
     public ImageView Right;
     public FloatingActionButton AddButton;
 
+    private SampleEventListener mSampleEventListener;
     // ---------------
     // Constructor( Overroads )
     // ---------------
@@ -102,6 +109,7 @@ public class CaliaryView extends View {
     // ---------------
     public void initialize( Context cont, AttributeSet attr ) {
         if( attr != null ) {
+            sel_date = "";
             this.cont = cont;
             viewX = 0;
             viewY = 0;
@@ -112,6 +120,10 @@ public class CaliaryView extends View {
             nextDateManager = new DateManagement();
             OutsideDateManagerUpdate();
             detector = new GestureDetectorCompat( getContext(), new CaliaryController( this ));
+            final DBHelper dbHelper = new DBHelper(cont, "Caliary.db", null, 1);
+//        dbHelper.resetSchedule(); //스케줄 정보 리셋
+            Selected_date.getInstance().setDbHelper(dbHelper);
+
 
             TypedArray typedArray = getContext().getTheme().obtainStyledAttributes( attr, R.styleable.CaliaryView, 0, 0);
             try {
@@ -169,8 +181,13 @@ public class CaliaryView extends View {
             @Override
             public void onClick( View v ) {
                 Toast.makeText( cont.getApplicationContext(), "추가 화면으로 이동합니다.", Toast.LENGTH_SHORT ).show();
+                Intent intent2 = new Intent(cont.getApplicationContext(), CreateSchedule.class);
+                cont.startActivity( intent2 );
             }
         } );
+
+        Log.d("sch","initCal");
+        EventDateBase item = new EventDateBase();
 
         selectDateOriginX = ( int )viewX + ( viewWidth / 2 );
         selectDateOriginY = ( int )viewY + ( viewHeight / 2 );
@@ -209,6 +226,7 @@ public class CaliaryView extends View {
             public void onClick( View v ) {
                 Toast.makeText( cont.getApplicationContext(), "추가 화면으로 이동합니다.", Toast.LENGTH_SHORT ).show();
                 Intent createIntent = new Intent( cont.getApplicationContext(), diarycreateactivity.class );
+                createIntent.putExtra("sel_date",sel_date);
                 cont.startActivity( createIntent );
             }
         } );
@@ -271,6 +289,13 @@ public class CaliaryView extends View {
     }
 
     // ---------------
+    // get : 달력
+    // ---------------
+    public DateManagement getCurrDateManager() {
+        return currDateManager;
+    }
+
+    // ---------------
     // 표시 달 변경
     // ---------------
     public void monthChange( int amount ) {
@@ -322,6 +347,10 @@ public class CaliaryView extends View {
 
         selectMonthChange( currDateManager );
     }
+    public void setSampleEventListener(SampleEventListener listener){
+        this.mSampleEventListener = listener;
+        Log.d("mListener","created");
+    }
 
     // ---------------
     // 좌표 커서 위치 날짜로 설정
@@ -341,7 +370,68 @@ public class CaliaryView extends View {
         month = date.get( Calendar.MONTH ) + 1;
         day = date.get( Calendar.DATE );
         dayStr = year + "년 " + month + "월 " + day + "일";
+        sel_date = ""+year+""+month+""+day;
+        Selected_date.getInstance().setSel_date(sel_date);
+        if(Selected_date.getInstance().getItem()==1){
+            Selected_date.getInstance().setMemoView(Selected_date.getInstance().getDbHelper().getResult(sel_date));
+        }
+
+        if(mSampleEventListener!=null){
+            Log.d("Listener listen",":"+sel_date);
+            mSampleEventListener.onReceivedEvent();
+        } else{
+            Log.d("Listener not listen",":"+sel_date);
+        }
+
+        EventDateBase item = new EventDateBase();
+        final ArrayList<String> schedules;
+        schedules = Selected_date.getInstance().getDbHelper().getTitleResult(Selected_date.getInstance().getSel_date());
+        if(schedules!=null){
+            try {
+                if (!schedules.get(0).equals("")) {
+                    listEventDateAdapter.items.clear();
+                    Collections.sort(schedules, new Comparator<String>() {
+                        @Override
+                        public int compare(String o1, String o2) {
+                            return o1.compareTo(o2);
+                        }
+                    });
+                    for (int i = 0; i < schedules.size(); i++) {
+                        Log.d("sch", i + ":" + schedules.get(i));
+                        item = new EventDateBase();
+                        String str_schs = schedules.get(i).substring(0,14)+schedules.get(i).substring(schedules.get(i).indexOf('/')+1,schedules.get(i).length());
+                        item.setEventDateName(str_schs);
+                        listEventDateAdapter.items.add(item);
+                    }
+                } else {
+                    Log.d("no schedule", ":" + sel_date);
+                }
+            }catch (Exception e){
+                try {
+                    listEventDateAdapter.items.clear();
+                    Log.d("error","schedules.get(0).equals(\"\"))");
+                }catch (Exception e1)
+                {
+                    Log.d("error","listEventDateAdapter.items.clear();");
+                }
+            }
+            try {
+                listEventDateAdapter.notifyDataSetChanged();
+                listEventDate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent editScheduleIntent = new Intent(cont.getApplicationContext(),EditSchedule.class);
+                        Selected_date.getInstance().setSch_id(Integer.parseInt(schedules.get(position).substring(14,schedules.get(position).indexOf('/'))));
+                        Log.d("sch_id",":"+schedules.get(position).substring(14,schedules.get(position).indexOf('/')));
+                        cont.startActivity(editScheduleIntent);
+                    }
+                });
+            }catch (Exception e2){
+                Log.d("error","listEventDateAdapter.notifyDataSetChanged();");
+            }
+        }
         textToDate( dayStr );
+
     }
 
     // ---------------
@@ -373,6 +463,7 @@ public class CaliaryView extends View {
         month = date.get( Calendar.MONTH ) + 1;
         day = date.get( Calendar.DATE );
         dayStr = year + "년 " + month + "월 " + day + "일";
+        Selected_date.getInstance().setSel_date(""+year+month+day);
         textToDate( dayStr );
     }
 
@@ -504,7 +595,6 @@ public class CaliaryView extends View {
             }
         }
     }
-
     // ---------------
     // 이벤트 그리기
     // ---------------
@@ -700,7 +790,6 @@ public class CaliaryView extends View {
 
         setMeasuredDimension( viewWidth, viewHeight );
     }
-
     // ---------------
     // Override : 그리기
     // ---------------
@@ -719,6 +808,10 @@ public class CaliaryView extends View {
         canvas.drawBitmap( bitmap, viewX - viewWidth, viewY, paint );
         drawSelect( canvas );
         anim();
+    }
+
+    public interface SampleEventListener {
+        void onReceivedEvent();
     }
 
 }

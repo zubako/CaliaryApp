@@ -1,11 +1,12 @@
 package com.example.zubako.caliary;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Schedule implements Serializable {
-    public int sch_id, mark, anniversary;
-    public String title, sch_date, sch_time, d_day, content, area;
+    public int sch_id;
+    public String title;
+    public String sch_date;
+    public String sch_time;
 
     public void setSch_id(int sch_id) {
         this.sch_id = sch_id;
@@ -79,19 +80,13 @@ public class Schedule implements Serializable {
         return area;
     }
 
+    public String d_day;
+    public String content;
+    public int mark;
+    public int anniversary;
+    public String area;
 
-
-    public Schedule(){
-        Date current = new Date();
-        this.title = "title";//일정제목
-        this.sch_date ="a";//일정 년 월 일
-        this.sch_time = "time";//일정 시 분
-        this.d_day = "b";// 알람 시작일
-        this.content = "c";//일정세부내용
-        this.mark = 0;//중요도
-        this.anniversary = 0;//매년울릴것인가
-        this.area = "d";//장소
-    }
+    public Schedule(){}
 
     public Schedule(String title, String sch_date, String sch_time, String d_day, String content, int mark,  int anniversary, String area){
         this.title = title;//일정제목

@@ -47,4 +47,6 @@ public class EventDateAdapter extends BaseAdapter {
         return convertView;
     }
 
+
+
 }
