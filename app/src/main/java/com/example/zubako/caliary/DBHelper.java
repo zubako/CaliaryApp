@@ -230,6 +230,26 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return result;
     }
+    public int getMark(String sch_date, int row) {
+        // 읽기가 가능하게 DB 열기
+        SQLiteDatabase db = getReadableDatabase();
+        int result = 0;
+
+        // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM SCHEDULE WHERE sch_date = '" + sch_date + "'", null);
+            if(cursor == null)
+                return result;
+            int i = 0;
+            while (cursor.moveToNext()) {
+                if (i++ > row) { break; }
+                result = cursor.getInt(6);
+            }
+        } catch (Exception e){
+            return result;
+        }
+        return result;
+    }
     public String getTitle(int sch_id) {
         // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();
