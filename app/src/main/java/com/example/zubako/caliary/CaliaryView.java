@@ -124,7 +124,6 @@ public class CaliaryView extends View {
 //        dbHelper.resetSchedule(); //스케줄 정보 리셋
             Selected_date.getInstance().setDbHelper(dbHelper);
 
-
             TypedArray typedArray = getContext().getTheme().obtainStyledAttributes( attr, R.styleable.CaliaryView, 0, 0);
             try {
                 attrViewIsCalendar = typedArray.getBoolean( R.styleable.CaliaryView_viewIsCalendar, true );
@@ -430,10 +429,10 @@ public class CaliaryView extends View {
         int day = date.get( Calendar.DATE );
 
         if( EventDateBase.ANNIVERSARY.containsKey( ( 100 * month ) + day ) ) {
-            listEventDateAdapter.items.add( ( new EventDateBase( 1, EventDateBase.ANNIVERSARY.get( ( 100 * month ) + day ), null ) ) );
+            listEventDateAdapter.items.add( ( new EventDateBase( 0, EventDateBase.ANNIVERSARY.get( ( 100 * month ) + day ), cont.getDrawable( android.R.drawable.menuitem_background ) ) ) );
         }
         if( EventDateBase.HOLIDAY.containsKey( ( 100 * month ) + day ) ) {
-            listEventDateAdapter.items.add( ( new EventDateBase( 2, EventDateBase.HOLIDAY.get( ( 100 * month ) + day ), null ) ) );
+            listEventDateAdapter.items.add( ( new EventDateBase( 0, EventDateBase.HOLIDAY.get( ( 100 * month ) + day ), cont.getDrawable( android.R.drawable.menuitem_background ) ) ) );
         } 
     }
 
@@ -578,7 +577,7 @@ public class CaliaryView extends View {
         for( day = 1; day <= date.getLastDayOfMonth( date ); day++ ) {
             pos = 0;
 
-            Selected_date.getInstance().setSel_date( "" + year + "" + month + "" + day );
+            Selected_date.getInstance().setSel_date( year + "" + month + "" + day );
             schedules = Selected_date.getInstance().getDbHelper().getTitleResult(Selected_date.getInstance().getSel_date());
             for ( int i = 0; i < schedules.size(); i++ ) {
                 String eventName = schedules.get( i ).substring( schedules.get( i ).indexOf( '/' ) + 1, schedules.get( i ).length() );
@@ -614,7 +613,7 @@ public class CaliaryView extends View {
         year = date.get( Calendar.YEAR );
         month = date.get( Calendar.MONTH ) + 1;
         for( day = 1; day <= date.getLastDayOfMonth( date ); day++ ) {
-            imageName = Selected_date.getInstance().getDbHelper().getEmoticon( "" + year + "" + month + "" + day );
+            imageName = Selected_date.getInstance().getDbHelper().getEmoticon( year + "" + month + "" + day );
             if( imageName.equals( "" ) ) { continue; }
 
             eventX = viewX + getViewXforDate(date, day) + drawSpaceHeight;
@@ -634,13 +633,13 @@ public class CaliaryView extends View {
         float drawSpaceHeight = attrNumberSize + attrNumberSpaceY;
         float drawHeight = ( viewCellHeight - drawSpaceHeight - 6 ) / maxPos;
 
-        float eventX = viewX + getViewXforDate(date, day) + 6;
-        float eventY = viewY + getViewYforDate(date, day) + viewCellHeight - ( drawHeight * ( pos + 1 ) );
-        float eventWidth = viewX + getViewXforDate(date, day) + viewCellWidth - 6;
-        float eventHeight = viewY + getViewYforDate(date, day) + viewCellHeight - ( drawHeight * pos ) - 6;
+        float eventX = viewX + getViewXforDate( date, day ) + 6;
+        float eventY = viewY + getViewYforDate( date, day ) + viewCellHeight - ( drawHeight * ( pos + 1 ) );
+        float eventWidth = viewX + getViewXforDate( date, day ) + viewCellWidth - 6;
+        float eventHeight = viewY + getViewYforDate( date, day ) + viewCellHeight - ( drawHeight * pos ) - 6;
 
         String eventName = "";
-        Drawable res = getResources().getDrawable( R.drawable.gradient_holiday);
+        Drawable res = getResources().getDrawable( R.drawable.gradient_holiday );
         Bitmap image;
         Canvas c;
 
@@ -739,16 +738,17 @@ public class CaliaryView extends View {
             try {
                 if (!schedules.get(0).equals("")) {
                     listEventDateAdapter.items.clear();
-                    Collections.sort(schedules, new Comparator<String>() {
-                        @Override
-                        public int compare(String o1, String o2) {
-                            return o1.compareTo(o2);
-                        }
-                    });
+//                    Collections.sort(schedules, new Comparator<String>() {
+//                        @Override
+//                        public int compare(String o1, String o2) {
+//                            return o1.compareTo(o2);
+//                        }
+//                    });
                     for (int i = 0; i < schedules.size(); i++) {
                         Log.d("sch", i + ":" + schedules.get(i));
                         item = new EventDateBase();
                         String str_schs = schedules.get(i).substring(0,14)+schedules.get(i).substring(schedules.get(i).indexOf('/')+1,schedules.get(i).length());
+                        item.setEventDateKind(Selected_date.getInstance().getDbHelper().getMark(sel_date,i)+1);
                         item.setEventDateName(str_schs);
                         listEventDateAdapter.items.add(item);
                     }

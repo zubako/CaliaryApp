@@ -47,7 +47,7 @@ public class EventDateAdapter extends BaseAdapter {
             EventDateBase item = items.get( position );
             switch( item.getEventDateKind() ) {
                 case 1: {
-                    imgPri.setImageDrawable( convertView.getContext().getDrawable( R.drawable.symbol_anniversary ) );
+                    imgPri.setImageDrawable( convertView.getContext().getDrawable( R.drawable.symbol_event ) );
 
                     break;
                 }
@@ -57,7 +57,7 @@ public class EventDateAdapter extends BaseAdapter {
                     break;
                 }
                 default: {
-                    imgPri.setImageDrawable( convertView.getContext().getDrawable( R.drawable.symbol_event ) );
+                    imgPri.setImageDrawable( null );
 
                     break;
                 }
@@ -65,12 +65,12 @@ public class EventDateAdapter extends BaseAdapter {
             if( item.getEventDateName() != null ) {
                 txtEventDate.setText( item.getEventDateName() );
             }
-            imgSet.setImageDrawable( item.getEventDateSet() );
+            if( item.getEventDateSet() != null ) {
+                imgSet.setImageDrawable( item.getEventDateSet() );
+            }
         }
 
         return convertView;
     }
-
-
 
 }
