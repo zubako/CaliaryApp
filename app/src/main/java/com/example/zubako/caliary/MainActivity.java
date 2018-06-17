@@ -30,23 +30,16 @@ public class MainActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
     }
-
     @Override
-    public boolean onCreateOptionsMenu( Menu menu ) {
-        getMenuInflater().inflate( R.menu.main_menu, menu );
-
-        return super.onCreateOptionsMenu( menu );
-    }
-
-    @Override
-    public boolean onOptionsItemSelected( MenuItem item ) {
-        switch( item.getItemId() ) {
+    public boolean onOptionsItemSelected (MenuItem item ){
+        switch (item.getItemId()) {
             case R.id.diary: {
                 Intent intent = new Intent( getApplicationContext(), DiaryActivity.class );
-                intent.putExtra( "year", calendar.getDate().get( Calendar.YEAR ) );
-                intent.putExtra( "month", calendar.getDate().get( Calendar.MONTH ) );
-                intent.putExtra( "date", calendar.getDate().get( Calendar.DATE ) );
+//                intent.putExtra( "year", calendar.getDate().get( Calendar.YEAR ) );
+//                intent.putExtra( "month", calendar.getDate().get( Calendar.MONTH ) );
+//                intent.putExtra( "date", calendar.getDate().get( Calendar.DATE ) );
                 startActivity( intent );
+
                 finish();
 
                 return true;
@@ -57,4 +50,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }
