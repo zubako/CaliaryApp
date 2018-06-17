@@ -770,9 +770,13 @@ public class CaliaryView extends View {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent editScheduleIntent = new Intent(cont.getApplicationContext(),EditSchedule.class);
-                        Selected_date.getInstance().setSch_id(Integer.parseInt(schedules.get(position).substring(14,schedules.get(position).indexOf('/'))));
-                        Log.d("sch_id",":"+schedules.get(position).substring(14,schedules.get(position).indexOf('/')));
-                        cont.startActivity(editScheduleIntent);
+                        if(schedules.size()!=0){
+                            Selected_date.getInstance().setSch_id(Integer.parseInt(schedules.get(position).substring(14,schedules.get(position).indexOf('/'))));
+                            Log.d("sch_id",":"+schedules.get(position).substring(14,schedules.get(position).indexOf('/')));
+                            cont.startActivity(editScheduleIntent);
+                        } else{
+                            Toast.makeText( getContext(), "기념일은 수정할수없습니다.", Toast.LENGTH_SHORT ).show();
+                        }
                     }
                 });
             }catch (Exception e2){

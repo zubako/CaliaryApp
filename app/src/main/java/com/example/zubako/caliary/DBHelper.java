@@ -65,7 +65,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void update(String mMemo_date, String mMemo, String mEmoticon) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-        db.execSQL("UPDATE MEMO SET update  memo = '" +mMemo+ "', update emoticon = '"+ mEmoticon+"'," + "WHERE memo_date = '"+ mMemo_date+"');");
+        db.execSQL("UPDATE MEMO SET memo='"+mMemo +"'" + " WHERE  Memo_date = '"+ mMemo_date+"';");
+        db.execSQL("UPDATE MEMO SET emoticon='"+ mEmoticon +"'" + " WHERE  Memo_date = '"+ mMemo_date+"';");
         db.close();
     }
 

@@ -64,7 +64,13 @@ public class DiaryActivity extends AppCompatActivity {
         String memo_content = memoview1.getStringExtra("Memo");
         String emoticon = memoview1.getStringExtra("TIME");
         if(memo_content!=null){
-            Selected_date.getInstance().getDbHelper().insert(date_memo,memo_content,emoticon);
+            if(Selected_date.getInstance().getDbHelper().getEmoticon(Selected_date.getInstance().getSel_date())==null){
+                Selected_date.getInstance().getDbHelper().insert(date_memo,memo_content,emoticon);
+                Toast.makeText(this,"저장되었습니다.", Toast.LENGTH_LONG).show();
+            } else{
+                Selected_date.getInstance().getDbHelper().update(date_memo,memo_content,emoticon);
+                Toast.makeText(this,"수정되었습니다.", Toast.LENGTH_LONG).show();
+            }
         }
         memoview.setText("내용이 없습니다.");
         String game_time_sc = memoview1.getStringExtra("TIME"); // MainActivity에서 "TIME"이란 키로 넘낀 인탠트값 가져오기
