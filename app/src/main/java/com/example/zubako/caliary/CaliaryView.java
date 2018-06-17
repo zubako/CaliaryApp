@@ -109,10 +109,10 @@ public class CaliaryView extends View {
     // ---------------
     public void initialize( Context cont, AttributeSet attr ) {
         if( attr != null ) {
-            sel_date = "";
             this.cont = cont;
             viewX = 0;
             viewY = 0;
+            sel_date = "";
             paint = new Paint();
             dateManager = new DateManagement();
             currDateManager = new DateManagement();
@@ -180,7 +180,6 @@ public class CaliaryView extends View {
         btnAddEventDate.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                Toast.makeText( cont.getApplicationContext(), "추가 화면으로 이동합니다.", Toast.LENGTH_SHORT ).show();
                 Intent intent2 = new Intent(cont.getApplicationContext(), CreateSchedule.class);
                 cont.startActivity( intent2 );
             }
@@ -224,7 +223,6 @@ public class CaliaryView extends View {
         AddButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                Toast.makeText( cont.getApplicationContext(), "추가 화면으로 이동합니다.", Toast.LENGTH_SHORT ).show();
                 Intent createIntent = new Intent( cont.getApplicationContext(), diarycreateactivity.class );
                 createIntent.putExtra("sel_date",sel_date);
                 cont.startActivity( createIntent );
@@ -289,13 +287,6 @@ public class CaliaryView extends View {
     }
 
     // ---------------
-    // get : 달력
-    // ---------------
-    public DateManagement getCurrDateManager() {
-        return currDateManager;
-    }
-
-    // ---------------
     // 표시 달 변경
     // ---------------
     public void monthChange( int amount ) {
@@ -347,10 +338,6 @@ public class CaliaryView extends View {
 
         selectMonthChange( currDateManager );
     }
-    public void setSampleEventListener(SampleEventListener listener){
-        this.mSampleEventListener = listener;
-        Log.d("mListener","created");
-    }
 
     // ---------------
     // 좌표 커서 위치 날짜로 설정
@@ -370,68 +357,12 @@ public class CaliaryView extends View {
         month = date.get( Calendar.MONTH ) + 1;
         day = date.get( Calendar.DATE );
         dayStr = year + "년 " + month + "월 " + day + "일";
-        sel_date = ""+year+""+month+""+day;
-        Selected_date.getInstance().setSel_date(sel_date);
-        if(Selected_date.getInstance().getItem()==1){
-            Selected_date.getInstance().setMemoView(Selected_date.getInstance().getDbHelper().getResult(sel_date));
-        }
-
-        if(mSampleEventListener!=null){
-            Log.d("Listener listen",":"+sel_date);
-            mSampleEventListener.onReceivedEvent();
-        } else{
-            Log.d("Listener not listen",":"+sel_date);
-        }
-
-        EventDateBase item = new EventDateBase();
-        final ArrayList<String> schedules;
-        schedules = Selected_date.getInstance().getDbHelper().getTitleResult(Selected_date.getInstance().getSel_date());
-        if(schedules!=null){
-            try {
-                if (!schedules.get(0).equals("")) {
-                    listEventDateAdapter.items.clear();
-                    Collections.sort(schedules, new Comparator<String>() {
-                        @Override
-                        public int compare(String o1, String o2) {
-                            return o1.compareTo(o2);
-                        }
-                    });
-                    for (int i = 0; i < schedules.size(); i++) {
-                        Log.d("sch", i + ":" + schedules.get(i));
-                        item = new EventDateBase();
-                        String str_schs = schedules.get(i).substring(0,14)+schedules.get(i).substring(schedules.get(i).indexOf('/')+1,schedules.get(i).length());
-                        item.setEventDateName(str_schs);
-                        listEventDateAdapter.items.add(item);
-                    }
-                } else {
-                    Log.d("no schedule", ":" + sel_date);
-                }
-            }catch (Exception e){
-                try {
-                    listEventDateAdapter.items.clear();
-                    Log.d("error","schedules.get(0).equals(\"\"))");
-                }catch (Exception e1)
-                {
-                    Log.d("error","listEventDateAdapter.items.clear();");
-                }
-            }
-            try {
-                listEventDateAdapter.notifyDataSetChanged();
-                listEventDate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent editScheduleIntent = new Intent(cont.getApplicationContext(),EditSchedule.class);
-                        Selected_date.getInstance().setSch_id(Integer.parseInt(schedules.get(position).substring(14,schedules.get(position).indexOf('/'))));
-                        Log.d("sch_id",":"+schedules.get(position).substring(14,schedules.get(position).indexOf('/')));
-                        cont.startActivity(editScheduleIntent);
-                    }
-                });
-            }catch (Exception e2){
-                Log.d("error","listEventDateAdapter.notifyDataSetChanged();");
-            }
-        }
         textToDate( dayStr );
 
+        getDBData( year, month, day );
+        if( attrViewIsCalendar ) {
+            listAddEvent( date );
+        }
     }
 
     // ---------------
@@ -442,7 +373,6 @@ public class CaliaryView extends View {
         int month;
         int day;
         int amount;
-        String dayStr;
 
         year = date.get( Calendar.YEAR );
         month = date.get( Calendar.MONTH );
@@ -458,13 +388,6 @@ public class CaliaryView extends View {
         date.set( Calendar.MONTH, month );
         date.set( Calendar.YEAR, year );
         dateToSelectDate( date );
-
-        year = date.get( Calendar.YEAR );
-        month = date.get( Calendar.MONTH ) + 1;
-        day = date.get( Calendar.DATE );
-        dayStr = year + "년 " + month + "월 " + day + "일";
-        Selected_date.getInstance().setSel_date(""+year+month+day);
-        textToDate( dayStr );
     }
 
     // ---------------
@@ -496,6 +419,38 @@ public class CaliaryView extends View {
         else {
             Date.setText( text );
             DiaryView.setText( Html.fromHtml( "<u>" + text + "</u>" ) );
+        }
+    }
+
+    // ---------------
+    //
+    // ---------------
+    public void listAddEvent( DateManagement date ) {
+        int month = date.get( Calendar.MONTH ) + 1;
+        int day = date.get( Calendar.DATE );
+
+        if( EventDateBase.ANNIVERSARY.containsKey( ( 100 * month ) + day ) ) {
+            listEventDateAdapter.items.add( ( new EventDateBase( 1, EventDateBase.ANNIVERSARY.get( ( 100 * month ) + day ), null ) ) );
+        }
+        if( EventDateBase.HOLIDAY.containsKey( ( 100 * month ) + day ) ) {
+            listEventDateAdapter.items.add( ( new EventDateBase( 2, EventDateBase.HOLIDAY.get( ( 100 * month ) + day ), null ) ) );
+        } 
+    }
+
+    // ---------------
+    // 동작 묘화
+    // ---------------
+    public int getNameToImage( String name ) {
+        switch( name ) {
+            case "soso": { return R.drawable.soso1; }
+            case "happy": { return R.drawable.happy; }
+            case "fun": { return R.drawable.fun; }
+            case "sad": { return R.drawable.sad; }
+            case "sleepy": { return R.drawable.sleepy; }
+            case "hurt": { return R.drawable.hurt; }
+            case "love": { return R.drawable.love; }
+            case "angry": { return R.drawable.angry; }
+            default: { return 0; }
         }
     }
 
@@ -611,20 +566,32 @@ public class CaliaryView extends View {
     // 달력에 이벤트 그리기
     // ---------------
     public void drawEventDate( Canvas canvas, DateManagement date ) {
+        int year;
         int month;
         int day;
         int maxPos = 2;
         int pos;
+        ArrayList<String> schedules;
 
+        year = date.get( Calendar.YEAR );
         month = date.get( Calendar.MONTH ) + 1;
         for( day = 1; day <= date.getLastDayOfMonth( date ); day++ ) {
             pos = 0;
+
+            Selected_date.getInstance().setSel_date( "" + year + "" + month + "" + day );
+            schedules = Selected_date.getInstance().getDbHelper().getTitleResult(Selected_date.getInstance().getSel_date());
+            for ( int i = 0; i < schedules.size(); i++ ) {
+                String eventName = schedules.get( i ).substring( schedules.get( i ).indexOf( '/' ) + 1, schedules.get( i ).length() );
+                drawEvent( canvas, date, day, EVENT, maxPos, pos, eventName );
+                pos++;
+            }
+
             if( EventDateBase.ANNIVERSARY.containsKey( ( 100 * month ) + day ) ) {
-                drawEvent( canvas, date, day, ANNIVERSARY, maxPos, pos );
+                drawEvent( canvas, date, day, ANNIVERSARY, maxPos, pos, "" );
                 pos++;
             }
             if( EventDateBase.HOLIDAY.containsKey( ( 100 * month ) + day ) ) {
-                drawEvent( canvas, date, day, HOLIDAY, maxPos, pos );
+                drawEvent( canvas, date, day, HOLIDAY, maxPos, pos, "" );
             }
         }
     }
@@ -633,6 +600,8 @@ public class CaliaryView extends View {
     // 다이어리에 데이터 그리기
     // ---------------
     public void drawDiaryData( Canvas canvas, DateManagement date ) {
+        int year;
+        int month;
         int day;
 
         float drawSpaceHeight = attrNumberSize + attrNumberSpaceY;
@@ -640,14 +609,20 @@ public class CaliaryView extends View {
         float eventY;
         float eventWidth;
         float eventHeight;
+        String imageName;
 
+        year = date.get( Calendar.YEAR );
+        month = date.get( Calendar.MONTH ) + 1;
         for( day = 1; day <= date.getLastDayOfMonth( date ); day++ ) {
+            imageName = Selected_date.getInstance().getDbHelper().getEmoticon( "" + year + "" + month + "" + day );
+            if( imageName.equals( "" ) ) { continue; }
+
             eventX = viewX + getViewXforDate(date, day) + drawSpaceHeight;
             eventY = viewY + getViewYforDate(date, day) + drawSpaceHeight;
             eventWidth = viewX + getViewXforDate(date, day) + viewCellWidth - 6;
             eventHeight = viewY + getViewYforDate(date, day) + viewCellHeight - 6;
 
-            Bitmap image = BitmapFactory.decodeResource( cont.getResources(), R.drawable.angry );
+            Bitmap image = BitmapFactory.decodeResource( cont.getResources(), getNameToImage( imageName ) );
             canvas.drawBitmap( image, null, new Rect( ( int )eventX, ( int )eventY, ( int )eventWidth, ( int )eventHeight ), paint );
         }
     }
@@ -655,7 +630,7 @@ public class CaliaryView extends View {
     // ---------------
     // 이벤트에 설정된 정보 표시
     // ---------------
-    public void drawEvent( Canvas canvas, DateManagement date, int day, int eventKind, int maxPos, int pos ) {
+    public void drawEvent( Canvas canvas, DateManagement date, int day, int eventKind, int maxPos, int pos, String addText ) {
         float drawSpaceHeight = attrNumberSize + attrNumberSpaceY;
         float drawHeight = ( viewCellHeight - drawSpaceHeight - 6 ) / maxPos;
 
@@ -690,7 +665,7 @@ public class CaliaryView extends View {
                 }
                 case EVENT: {
                     res = getResources().getDrawable( R.drawable.gradient_event );
-
+                    eventName = addText;
 
                     break;
                 }
@@ -701,7 +676,7 @@ public class CaliaryView extends View {
             c = new Canvas( image );
             res.setBounds( 0, 0, res.getIntrinsicWidth(), res.getIntrinsicHeight() );
             res.draw( c );
-            canvas.drawBitmap( image, null, new Rect( ( int )eventX + 1, ( int )eventY + 1, ( int )eventWidth - 1, ( int )eventHeight - 1 ), paint );
+            canvas.drawBitmap( image, null, new Rect( ( int )eventX + 2, ( int )eventY + 2, ( int )eventWidth - 2, ( int )eventHeight - 2 ), paint );
 
             while( paint.measureText( eventName ) > eventWidth - eventX ) {
                 if ( eventName.substring( eventName.length() - 3, eventName.length() ).equals( "..." ) ) {
@@ -732,6 +707,78 @@ public class CaliaryView extends View {
                 viewY + viewWeekHeight + selectDateOriginY,
                 viewX + selectDateOriginX + viewCellWidth,
                 viewY + viewWeekHeight + selectDateOriginY + viewCellHeight, paint );
+    }
+
+    public void setSampleEventListener(SampleEventListener listener){
+        this.mSampleEventListener = listener;
+        Log.d("mListener","created");
+    }
+
+    public interface SampleEventListener {
+        void onReceivedEvent();
+    }
+
+    public void getDBData( int year, int month, int day ) {
+        sel_date = ""+year+""+month+""+day;
+        Selected_date.getInstance().setSel_date(sel_date);
+        if(Selected_date.getInstance().getItem()==1){
+            Selected_date.getInstance().setMemoView(Selected_date.getInstance().getDbHelper().getResult(sel_date));
+        }
+
+        if(mSampleEventListener!=null){
+            Log.d("Listener listen",":"+sel_date);
+            mSampleEventListener.onReceivedEvent();
+        } else{
+            Log.d("Listener not listen",":"+sel_date);
+        }
+
+        EventDateBase item = new EventDateBase();
+        final ArrayList<String> schedules;
+        schedules = Selected_date.getInstance().getDbHelper().getTitleResult(Selected_date.getInstance().getSel_date());
+        if(schedules!=null){
+            try {
+                if (!schedules.get(0).equals("")) {
+                    listEventDateAdapter.items.clear();
+                    Collections.sort(schedules, new Comparator<String>() {
+                        @Override
+                        public int compare(String o1, String o2) {
+                            return o1.compareTo(o2);
+                        }
+                    });
+                    for (int i = 0; i < schedules.size(); i++) {
+                        Log.d("sch", i + ":" + schedules.get(i));
+                        item = new EventDateBase();
+                        String str_schs = schedules.get(i).substring(0,14)+schedules.get(i).substring(schedules.get(i).indexOf('/')+1,schedules.get(i).length());
+                        item.setEventDateName(str_schs);
+                        listEventDateAdapter.items.add(item);
+                    }
+                } else {
+                    Log.d("no schedule", ":" + sel_date);
+                }
+            }catch (Exception e){
+                try {
+                    listEventDateAdapter.items.clear();
+                    Log.d("error","schedules.get(0).equals(\"\"))");
+                }catch (Exception e1)
+                {
+                    Log.d("error","listEventDateAdapter.items.clear();");
+                }
+            }
+            try {
+                listEventDateAdapter.notifyDataSetChanged();
+                listEventDate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent editScheduleIntent = new Intent(cont.getApplicationContext(),EditSchedule.class);
+                        Selected_date.getInstance().setSch_id(Integer.parseInt(schedules.get(position).substring(14,schedules.get(position).indexOf('/'))));
+                        Log.d("sch_id",":"+schedules.get(position).substring(14,schedules.get(position).indexOf('/')));
+                        cont.startActivity(editScheduleIntent);
+                    }
+                });
+            }catch (Exception e2){
+                Log.d("error","listEventDateAdapter.notifyDataSetChanged();");
+            }
+        }
     }
 
     // ---------------
@@ -808,10 +855,6 @@ public class CaliaryView extends View {
         canvas.drawBitmap( bitmap, viewX - viewWidth, viewY, paint );
         drawSelect( canvas );
         anim();
-    }
-
-    public interface SampleEventListener {
-        void onReceivedEvent();
     }
 
 }
