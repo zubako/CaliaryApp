@@ -11,6 +11,7 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:weightSum="100"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -58,14 +59,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="64"
-            app:viewIsCalendar="false"
+            app:defaultColor="#c8c8c8"
             app:numberSize="64"
             app:numberSpaceX="10"
             app:numberSpaceY="0"
-            app:weekHeight="64"
-            app:defaultColor="#c8c8c8"
             app:tomonthBackgroundColor="#ffffec"
-            app:weekBackgroundColor="#e8ffe8" />
+            app:viewIsCalendar="false"
+            app:weekBackgroundColor="#e8ffe8"
+            app:weekHeight="64" />
 
         <TextView
             android:id="@+id/DiaryView"
@@ -78,14 +79,27 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/MemoView"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_weight="30"
-            android:gravity="top|start"
-            android:textSize="10sp" />
+            android:scrollbars="vertical"
+            android:fillViewport="true"
+            android:layout_weight="30">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/MemoView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="30"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 

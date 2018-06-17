@@ -12,14 +12,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+//    final DBHelper dbHelper = new DBHelper(this, "Caliary.db", null, 1);//DB 실행
     // ---------------
     // Main 액티비티의 화끈한 시작!
+    CaliaryView caliaryView;
     // ---------------
     @Override
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+//        Selected_date.getInstance().setDbHelper(dbHelper);
+        caliaryView = new CaliaryView(this);
+        caliaryView = findViewById(R.id.caliary_calendar);
+        Selected_date.getInstance().setCaliaryView(caliaryView);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         switch( item.getItemId() ) {
             case R.id.diary: {
                 Intent intent = new Intent( getApplicationContext(), DiaryActivity.class );
+                Selected_date.getInstance().setItem(1);
                 startActivity( intent );
                 finish();
 

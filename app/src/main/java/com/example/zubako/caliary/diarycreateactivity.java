@@ -60,6 +60,8 @@ public class diarycreateactivity extends AppCompatActivity {
         findViewById(R.id.SaveButton).setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
+                        Intent seletedDay = getIntent();
+                        String date_memo = seletedDay.getStringExtra("sel_date");
                         RadioGroup rgf = (RadioGroup) findViewById(R.id.first_group);
                         RadioGroup rgfg = (RadioGroup)findViewById(R.id.first_group); // 라디오그룹 객체 맵핑
                         RadioButton selectedRdo; // = (RadioButton)findViewById(R.id.soso); // rg 라디오그룹의 체크된(getCheckedRadioButtonId) 라디오버튼 객체 맵핑
@@ -118,10 +120,10 @@ public class diarycreateactivity extends AppCompatActivity {
 
                         });
 
-
                         Intent intent = new Intent(diarycreateactivity.this, DiaryActivity.class);    // 보내는 클래스, 받는 클래스
                         intent.putExtra("TIME", selectedValue); // "TIME"이란 키 값으로 selectedValue를 넘김
                         intent.putExtra("Memo", DiaryWrite.getText().toString());
+                        intent.putExtra("date_memo",date_memo);
                         startActivity(intent);
 
                         rgs.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -155,7 +157,8 @@ public class diarycreateactivity extends AppCompatActivity {
                             }
 
                         });
-                        Intent intent2 = new Intent(diarycreateactivity.this, DiaryActivity.class);
+
+
                         intent.putExtra("TIME", selectedValue2); // "TIME"이란 키 값으로 selectedValue를 넘김
                         startActivity(intent);
                     }
